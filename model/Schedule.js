@@ -4,7 +4,12 @@ module.exports = {
   get: (req, res) => { // get done
     return new Promise((resolve, reject) => {
       //   const { title = "", director = "" } = req.query;
-      const sql = `SELECT * FROM schedule left join movies on schedule.movieID = movies.movieID left join cinema on schedule.cinemaID = cinema.cinemaID left join location on schedule.locationID = location.locationID ORDER BY schedule.created_at DESC`;
+      const sql = `SELECT * FROM schedule
+      LEFT JOIN movies on schedule.movieID = movies.movieID
+      LEFT JOIN cinema on schedule.cinemaID = cinema.cinemaID
+      LEFT JOIN location on schedule.locationID = location.locationID
+      ORDER BY schedule.created_at DESC`
+      
       db.query(sql, (err, results) => {
         if (err) {
           reject({
@@ -23,7 +28,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const {
         movieID,
-        price,
         cinemaID,
         locationID,
         dateStart,
@@ -32,15 +36,14 @@ module.exports = {
       } = req.body;
 
       db.query(
-        `INSERT INTO schedule(movieID, price, cinemaID, locationID, dateStart, dateEnd, time ) VALUES
-        ('${movieID}','${price}','${cinemaID}','${locationID}','${dateStart}','${dateEnd}','${time}')`,
+        `INSERT INTO schedule(movieID, cinemaID, locationID, dateStart, dateEnd, time) VALUES('${movieID}','${cinemaID}','${locationID}','${dateStart}','${dateEnd}','${time}')`,
         (err, results) => {
           if (err) {
             console.log(err);
             reject({ message: "Something wrong" });
           }
           resolve({
-            message: "Add new movies success",
+            message: "Add new schedule success",
             status: 200,
             data: {
               id: results.insertId,
@@ -54,7 +57,7 @@ module.exports = {
   update: (req, res) => { // update done
     return new Promise((resolve, reject) => {
       const { scheduleID } = req.params;
-      db.query(`SELECT * FROM schedule where id=${scheduleID}`, (err, results) => {
+      db.query(`SELECT * FROM schedule where scheduleID=${scheduleID}`, (err, results) => {
         if (err) {
           res.send({ message: "ada error" });
         }
@@ -65,8 +68,7 @@ module.exports = {
         };
         const {
           movieID,
-          price,
-          cinema,
+          cinemaID,
           locationID,
           dateStart,
           dateEnd,
@@ -74,14 +76,14 @@ module.exports = {
         } = previousData;
 
         db.query(
-          `UPDATE schedule SET movieID='${movieID}', price='${price}', cinema='${cinema}', locationID='${locationID}', dateStart='${dateStart}', dateEnd='${dateEnd}', time='${time}' WHERE id='${id}'`,
+          `UPDATE schedule SET movieID='${movieID}', cinemaID='${cinemaID}', locationID='${locationID}', dateStart='${dateStart}', dateEnd='${dateEnd}', time='${time}' WHERE scheduleID='${scheduleID}'`,
           (err, results) => {
             if (err) {
               console.log(err);
               reject({ message: "Something wrong" });
             }
             resolve({
-              message: "Update movies success",
+              message: "Update schedule success",
               status: 200,
               data: results,
             });

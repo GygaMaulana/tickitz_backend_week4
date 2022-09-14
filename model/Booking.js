@@ -5,7 +5,10 @@ module.exports = {
     // get done
     return new Promise((resolve, reject) => {
       //   const { title = "", director = "" } = req.query;
-      const sql = `SELECT * FROM booking left join movies on booking.movieID = movies.movieID left join cinema on booking.cinemaID = cinema.cinemaID ORDER BY booking.created_at DESC`;
+      const sql = `SELECT * FROM booking 
+      LEFT JOIN movies on booking.movieID = movies.movieID 
+      LEFT JOIN cinema on booking.cinemaID = cinema.cinemaID 
+      ORDER BY booking.created_at DESC`;
       db.query(sql, (err, results) => {
         if (err) {
           reject({

@@ -4,33 +4,42 @@ module.exports = {
   getAllCinema: async (req, res) => {
     try {
       const results = await Cinema.get(req, res);
-      res.status(200).send(results);
+      return res.status(200).send(results);
     } catch (error) {
-      res.send(error);
+      return res.send(error);
     }
   },
   addNewCinema: async (req, res) => {
     try {
       const results = await Cinema.add(req, res);
-      res.status(201).send(results);
+      return res.status(201).send(results);
     } catch (error) {
-      res.status(400).send(error);
+      return res.status(400).send(error);
     }
   },
   updateCinema: async (req, res) => {
     try {
-      const results = await Cinema.update(req, res);
-      res.status(201).send(results);
+      let reqModifier = {
+        ...req,
+      };
+      if(req.file) {
+        reqModifier = {
+          ...req,
+          body: { ...req.body, cinemaCover: req.file.filename },
+        }
+      }
+      const results = await Cinema.update(reqModifier, res);
+      return res.status(201).send(results);
     } catch (error) {
-      res.status(400).send(error);
+      return res.status(400).send(error);
     }
   },
   deleteCinema: async (req, res) => {
     try {
       const results = await Cinema.remove(req, res);
-      res.status(201).send(results);
+      return res.status(201).send(results);
     } catch (error) {
-      res.status(400).send(error);
+      return res.status(400).send(error);
     }
   },
 };
