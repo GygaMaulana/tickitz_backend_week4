@@ -20,9 +20,10 @@ const verifyAuth = (req, res, next) => {
                 })
             } else {
                 return res.status(403).send({
-                    message: "Access denied"
+                    message: "Access asd"
                 })
             }
+        
         })
     }
 }
