@@ -100,7 +100,7 @@ module.exports = {
 
       db.query(sql, (err, results) => {
         // console.log (sql)
-        console.log (results)
+        // console.log (results)
         if (err) {
           console.log(err);
           reject({ message: "ada error" });
