@@ -93,15 +93,20 @@ module.exports = {
         description,
         cover,
       } = req.body;
+      console.log (req.body)
 
-      const sql = `INSERT INTO movies(title, genre, durationHours, durationMinute, rating, director, writer, releaseDate, cast, description, cover) VALUES('${title}','${genre}','${durationHours}','${durationMinute}',${rating},'${director}','${writer}','${releaseDate}','${cast}', '${description}', '${cover}')`;
+      const sql = `INSERT INTO movies(title, genre, durationHours, durationMinute, rating, director, writer, releaseDate, cast, description, cover) VALUES('${title}','${genre}','${durationHours}','${durationMinute}',
+      '${rating}','${director}','${writer}','${releaseDate}','${cast}', '${description}', '${cover}')`;
 
       db.query(sql, (err, results) => {
+        // console.log (sql)
+        console.log (results)
         if (err) {
           console.log(err);
           reject({ message: "ada error" });
         }
         resolve({
+          
           message: "Add new movies success",
           status: 201,
           data: {
